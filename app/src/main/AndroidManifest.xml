@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Normal & Foreground Service Permissions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Nothing OS Ketchum Glyph Matrix Permission -->
+    <uses-permission android:name="com.nothing.ketchum.permission.ENABLE" />
+
+    <!-- Package visibility for Nothing Glyph Service & Installed App Picker -->
+    <queries>
+        <package android:name="com.nothing.thirdparty" />
+        <package android:name="com.nothing.glyph" />
+        <package android:name="com.nothing.ketchum" />
+        <intent>
+            <action android:name="com.nothing.thirdparty.bind_glyphservice" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <!-- Merged APK package / applicationId: com.amit.glyphvisualizer (Nothing OS third-party whitelist) -->
+    <application
+        android:name="com.example.GlyphFlowApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+
+        <meta-data
+            android:name="NothingKey"
+            android:value="test_key" />
+        <meta-data
+            android:name="TargetDevice"
+            android:value="A024" />
+        <meta-data
+            android:name="targetNothingSDKVersion"
+            android:value="140101" />
+
+        <activity
+            android:name="com.example.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyApplication">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- System Notification Listener Service for IFTTT Notification Triggers -->
+        <service
+            android:name="com.example.service.GlyphNotificationListenerService"
+            android:exported="true"
+            android:label="@string/notification_listener_label"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- Persistent Foreground Service for Telemetry, Sensors & Matrix Sequencer -->
+        <service
+            android:name="com.example.service.GlyphEngineForegroundService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.nothing.ketchum.permission.ENABLE"
+            android:foregroundServiceType="specialUse">
+            <intent-filter>
+                <action android:name="com.nothing.glyph.TOY_SERVICE" />
+                <action android:name="com.nothing.matrix.TOY_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="toy_name"
+                android:value="GlyphFlow" />
+            <meta-data
+                android:name="toy_type"
+                android:value="matrix" />
+            <meta-data
+                android:name="target_device"
+                android:value="A024" />
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Real-time Nothing Phone (3) 25x25 Glyph Matrix hardware LED automation engine" />
+        </service>
+
+        <!-- Quick Settings Tile to Toggle the GlyphFlow Rule Engine -->
+        <service
+            android:name="com.example.service.GlyphQuickSettingsTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_glyph_tile"
+            android:label="@string/qs_tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- Hardware Key Trigger Listener for Volume Down Long-Press & Double-Click Carousel Swaps -->
+        <service
+            android:name="com.example.service.GlyphKeyTriggerService"
+            android:exported="true"
+            android:label="@string/accessibility_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- OS-Level System Broadcast Receiver for Hardware, Power & Connectivity Signals -->
+        <receiver
+            android:name="com.example.service.GlyphSystemStateReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.AIRPLANE_MODE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.media.RINGER_MODE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

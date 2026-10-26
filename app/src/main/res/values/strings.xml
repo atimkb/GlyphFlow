@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GlyphFlow</string>
+    <string name="app_subtitle">NOTHING PHONE (3) // 25x25 MATRIX ENGINE</string>
+    <string name="nav_dashboard">RULES</string>
+    <string name="nav_studio">STUDIO</string>
+    <string name="nav_builder">BUILDER</string>
+    <string name="nav_audit">AUDIT LOG</string>
+    <string name="service_notification_channel_name">GlyphFlow Matrix Engine</string>
+    <string name="service_notification_title">GLYPHFLOW // MATRIX ENGINE ARMED</string>
+    <string name="service_notification_content">Monitoring system signals for 25x25 Glyph Matrix</string>
+    <string name="qs_tile_label">GlyphFlow Engine</string>
+    <string name="notification_listener_label">GlyphFlow Notification Trigger Engine</string>
+    <string name="accessibility_service_label">GlyphFlow Hardware Key Trigger Service</string>
+    <string name="accessibility_service_description">Monitors Volume Down long-press and double-click to cycle through ongoing Glyph matrix tasks while device is face down.</string>
+</resources>
